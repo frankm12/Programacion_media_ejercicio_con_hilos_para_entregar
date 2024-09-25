@@ -56,6 +56,7 @@ namespace Programacion_media_ejercicio_con_hilos_para_entregar
         //aqui declare mi balance en una variable static para que estuviera disponible en cualquier parte del codigo
         static int balance = 1000;
         static object lockObject = new object();
+        static Random aleatorio = new Random();
         static void Main(string[] args)
         {
             //se pare los h
@@ -87,11 +88,10 @@ namespace Programacion_media_ejercicio_con_hilos_para_entregar
             {
                 lock (lockObject)
                 {
-
-                    if (balance >= 0)
+                    int numeroAleatorio = aleatorio.Next(10, 100);
+                    if (balance >= numeroAleatorio)
                     {
-                        Random aleatorio = new Random();
-                        int numeroAleatorio = aleatorio.Next(10, 100);
+
                         int resultado = balance -= numeroAleatorio;
                         if (resultado < 0)
                         {
@@ -107,7 +107,8 @@ namespace Programacion_media_ejercicio_con_hilos_para_entregar
                     }
                     else
                     {
-                        Console.WriteLine($"el hilo: {Thread.CurrentThread.ManagedThreadId} no puede retirar por insuficiencia de fondos");
+                        Console.WriteLine($"el hilo: {Thread.CurrentThread.ManagedThreadId} Fracasco en retirar {numeroAleatorio}");
+                        Console.WriteLine($"EL balance disponible es: {balance} por lo que no se pudo retirar");
                     }
                     Thread.Sleep(1000);
                 }
